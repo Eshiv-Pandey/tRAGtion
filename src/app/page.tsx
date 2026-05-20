@@ -1,13 +1,20 @@
-import React from 'react'
-import { Button } from '@/components/ui/button'
-// import { prisma } from '@/lib/db'
+import { Suspense } from "react";
+import {getQueryClient, trpc} from "@/trpc/server"
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Client } from "./Client";
 
-const page = async () => {
+
+
+const page = async() => {
+  const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(trpc.hello.queryOptions({text:"Eshiv"}));
   
   return (
-    <div className='font-bold text-rose-500'>
-      <Button>Click Me</Button>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Suspense fallback={<h1>loading...</h1>}>
+        <Client/>
+      </Suspense>
+    </HydrationBoundary>
   )
 }
 
