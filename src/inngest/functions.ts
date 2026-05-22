@@ -6,6 +6,10 @@ const client = new OpenAI({
   baseURL: "https://api.groq.com/openai/v1",
 });
 
+
+//this is an inngest background function 
+//commit 1
+
 export const helloWorld = inngest.createFunction(
   { id: "hello-world", triggers: { event: "test/hello.world" } },
   async ({ event }) => {
